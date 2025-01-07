@@ -1,39 +1,38 @@
 import React, { useState, useEffect } from "react";
 
 function App() {
-  // State to store tasks and user input
+  
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
   const [input, setInput] = useState("");
-  const [editingIndex, setEditingIndex] = useState(null);  // Keeps track of which task is being edited
-  const [editingText, setEditingText] = useState("");      // Holds the updated text for editing
+  const [editingIndex, setEditingIndex] = useState(null); 
+  const [editingText, setEditingText] = useState("");      
 
-  // Save tasks to localStorage whenever the tasks array changes
+  
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  // Handle adding a new task or updating an existing task
+  
   const handleSubmit = () => {
     if (input.trim() !== "") {
       if (editingIndex !== null) {
-        // Update the task if we're in edit mode
+       
         const updatedTasks = [...tasks];
-        updatedTasks[editingIndex].text = input; // Update the task text with the new input
+        updatedTasks[editingIndex].text = input; 
         setTasks(updatedTasks);
-        setEditingIndex(null); // Reset editing state
-        setInput(""); // Clear the input field
+        setEditingIndex(null); 
       } else {
-        // Add a new task if no task is being edited
+       
         setTasks([...tasks, { text: input, completed: false }]);
-        setInput(""); // Clear input field
+        setInput(""); 
       }
     }
   };
 
-  // Toggle task completion
+
   const toggleComplete = (index) => {
     const updatedTasks = [...tasks];
     updatedTasks[index].completed = !updatedTasks[index].completed;
@@ -46,10 +45,10 @@ function App() {
     setTasks(updatedTasks);
   };
 
-  // Edit a task
+  
   const editTask = (index) => {
-    setEditingIndex(index); // Set the task to edit
-    setInput(tasks[index].text); // Pre-fill the input field with the current task text
+    setEditingIndex(index); 
+    setInput(tasks[index].text); 
   };
 
   return (
